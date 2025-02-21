@@ -16,18 +16,28 @@ int  main(void)
 {
   getpid()
   printf(pid)
-  signal(SIGURS1, )
-  signal(SIGURS2, )
+  signal(SIGURS1, decrypt_and_stock)
+  signal(SIGURS2, decrypt_and_stock)
   while (1)
     usleep(100)
 }
 ```
 
-### signal()
+### decrypt_and_stock()
 ```
 
 {
+  decrypt(bit)
+  stock(bit_d)
+}
+```
+### stock(bit_d)
+```
 
+{
+  t_node->next = malloc(sizeof(t_node))
+  t_node->next = bit_d
+  t_node->next->next = NULL
 }
 ```
 
