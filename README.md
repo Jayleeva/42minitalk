@@ -54,7 +54,7 @@ handle_signal()
   i ++;
   if i == 8
     if current_char == END_OF_MESSAGE // '\0'
-      stock_and_print("\n", 1);
+      stock_and_print("\n", 1);  // possiblement changer \n par un autre char: a gerer ensuite dans l'impression
     else
       stock_and_print(current_char, 0);
 }
