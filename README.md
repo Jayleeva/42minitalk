@@ -17,7 +17,7 @@ Droit à une globale par process si elle a du sens (?), et apparemment à autant
 int  main(void)
 {
   getpid()
-  printf(pid)
+  printf("%s", pid)
   signal(SIGURS1, )
   signal(SIGURS2, )
   while (1)
@@ -50,13 +50,20 @@ int  main(int argc, char **argv)
 {
   struct sigaction	sig_hook;
 
-  gestion erreurs: pas de PID ou pas de message, PID ou message invalide,...;
-  while (ft_strlen(message))
+  gestion erreurs: pas de PID ou pas de message, PID ou message invalide,...; Si erreur, exit(0) //pid = argv[1]
+  while (ft_strlen(message)) //message = argv[2], vraiment besoin de la longueur?
     encrypt_and_send_bit_by_bit(message)
 }
 ```
 
 ### encrypt_and_send_bit_by_bit(char *message)
 ```
-
+  while (message[i])
+    j = 8
+    while (j)
+      if (char[j] == 1 || 0) // en fonction du bit du byte
+        kill(pid, SIGURS1 || SIGURS2)
+        usleep(42)
+      j --;
+    i ++;
 ```
