@@ -12,6 +12,10 @@ Apparemment faut initialiser des trucs (?) mais pas besoin de déclarer la struc
 Droit à une globale par process si elle a du sens (?), et apparemment à autant de var static que je veux (?)
 
 ## server.c (pseudo-code)
+### globale
+```
+char *message;
+```
 ### main()
 ```
 int  main(void)
@@ -24,53 +28,34 @@ int  main(void)
     usleep(100)
 }
 ```
-### print_message(t_string **s)
-```
-void  print_message(t_string **s)
-{
-  t_string  *current;
-
-  current = *s;
-  while (current->next != NULL)
-    printf("%c", current->value);
-    current = current->next;
-}
-```
-
-
 ### stock_and_print(char current_char, int is_last)
 ```
 void  stock_and_print(char current_char, int is_last)
 {
-  t_string  *s;
-  s->next = malloc(sizeof(t_string))
-  s->next->value = current_char
-  s->next->next = NULL
-
-  if is_last
-    print_message(s);
+  static int i = 0;
+  int ;
+  message = (char *)malloc(sizeof(char) + 1);
+  message[i] = current_char;
+  if (is_last == 1)
+    j = 0;
+    while (message)
+	write(1, &message[j], 1);
+	j ++;
 }
 ```
-
 ### handle_signal()
 ```
 handle_signal()
 {
-  typedef struct string
-  {
-	  int			    value;
-	  struct node	*next;
-  }				      t_string;
-
   int i;
   if signal == SIGUSR2
-    current_char = signal;
+    current_char = signal; //?
   i ++;
   if i == 8
     if current_char == END_OF_MESSAGE // '\0'
-      stock(&string, "\n", 1);
+      stock_and_print("\n", 1);
     else
-      stock(&string, current_char, 0);
+      stock_and_print(current_char, 0);
 }
 ```
 
