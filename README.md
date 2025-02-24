@@ -36,6 +36,7 @@ void  stock_and_print(char current_char, int is_last)
   int ;
   message = (char *)malloc(sizeof(char) + 1);
   message[i] = current_char;
+  i ++;
   if (is_last == 1)
     j = 0;
     while (message)
