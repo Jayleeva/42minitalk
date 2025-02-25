@@ -1,7 +1,6 @@
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "libft/inc/libft.h"
 #include <signal.h>
+
 #define END_OF_MESSAGE '\0'
 
 void    handle_signal(int sig)
@@ -26,10 +25,10 @@ void    handle_signal(int sig)
 
 int  main(void)
 {
-    printf("%d\n", getpid());
+    ft_printf("%d\n", getpid());
     signal(SIGUSR1, handle_signal);
     signal(SIGUSR2, handle_signal);
     while (1)
-        pause();
+        usleep(100);
     return (0);
 }
