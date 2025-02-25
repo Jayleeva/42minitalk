@@ -12,10 +12,7 @@ Apparemment faut initialiser des trucs (?) mais pas besoin de déclarer la struc
 Droit à une globale par process si elle a du sens (?), et apparemment à autant de var static que je veux (?)
 
 ## server.c (pseudo-code)
-### globale
-```
-char *message;
-```
+
 ### main()
 ```
 int  main(void)
@@ -28,20 +25,14 @@ int  main(void)
     usleep(100)
 }
 ```
-### stock_and_print(char current_char, int is_last)
+### display(char current_char, int is_last)
 ```
-void  stock_and_print(char current_char, int is_last)
+void  display(char current_char, int is_last)
 {
-  static int i = 0;
-  int ;
-  message = (char *)malloc(sizeof(char) + 1);
-  message[i] = current_char;
-  i ++;
   if (is_last == 1)
-    j = 0;
-    while (message)
-	write(1, &message[j], 1);
-	j ++;
+	write(1, "\n", 1);
+  else
+	write(1, &current_char, 1);
 }
 ```
 ### handle_signal()
@@ -54,9 +45,9 @@ handle_signal()
   i ++;
   if i == 8
     if current_char == END_OF_MESSAGE // '\0'
-      stock_and_print("\n", 1);  // possiblement changer \n par un autre char: a gerer ensuite dans l'impression
+      display("\n", 1);  // possiblement changer \n par un autre char: a gerer ensuite dans l'impression
     else
-      stock_and_print(current_char, 0);
+      display(current_char, 0);
 }
 ```
 
@@ -76,10 +67,15 @@ int  main(int argc, char **argv)
 
 ### encrypt_and_send_bit_by_bit(char *message)
 ```
+void encrypt_and_send_bit_by_bit(char *message)
+{
   unsigned char temp;
+  int		i;
+
+  i = 0
   while (message[i])
     j = 8
-    temp = message[i]
+    temp = message[j]
     while (j)
         temp = message[i] >> j
         if temp % 2 == 0    // --> if (char[j] == 1 || 0), en fonction du bit 
@@ -89,4 +85,5 @@ int  main(int argc, char **argv)
         usleep(42)
       j --;
     i ++;
+}
 ```
