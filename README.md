@@ -1,6 +1,24 @@
 # 42minitalk
 Projet du 3ème cercle du cursus 42
 
+# Notions importantes
+## signal() // sigaction()
+
+## SIGUSR1 et SIGUSR2
+Ce sont des signaux de base dont les effets exacts sont déterminés par l'utilisateur-ice ou plutôt lae développeur-euse. Dans ce projet, j'ai choisi d'envoyer SIGUSR1 quand je veux signaler que le bit traité est un 0, et SIGUSR2 pour les 1. Ainsi, à l'endroit du code qui doit envoyer un 0, j'utilise SIGUSR1, et à l'endroit du code qui doit traiter le signal, je dis que si on a reçu un SIGUSR1, il faut comprendre et donc traiter le bit actuel comme un 0. Et inversément pour les 1.
+
+## kill()
+Le choix du nom de la méthode kill() vient de son histoire. A l'origine, elle servait uniquement à "tuer" des process. Petit à petit, l'utilisation s'est agrandie, mais le terme est resté. Dans ce projet, on l'utilise pour interrompre le process du serveur afin qu'il sorte de sa boucle infinie le temps de gérer le signal reçu.
+
+## getpid()
+Le PID (= identificateur de process) sert à... identifier le process. Cela permet notamment de faire agir kill() sur le bon process. Comme son nom l'indique, la fonction getpid() permet d'obtenir le PID du process où elle est appelée.
+
+## exit()
+La méthode exit() permet de quitter le programme "normalement". Si vous devez faire cesser votre programme dans une situation définie qui n'est pas simplement "arriver à la dernière ligne", utilisez exit(). Dans ce projet, on l'utilise lorsqu'une erreur est détectée.
+
+## Bit shifting
+Pour être sûr-e de pouvoir transmettre n'importe quel caractère avec une seule et même méthode, le plus simple est encore de s'en remettre au binaire. Dans ce projet, on transmet donc les caractères bit par bit, en prenant soin de commencer par le dernier bit du premier char. A la réception, on n'oublie donc pas, à chaque nouveau bit reçu, de décaler de 1 les bits du char actuellement traité: ``current_char <<= 1``. Je n'ai pas encore compris pourquoi on ne pourrait pas juste les passer dans le bon ordre dès le début: je suppose que c'est du au fonctionnement du binaire en lui-même.
+
 # Stratégie
 ## Fonctionnement global
 - Le "client" et le "serveur" sont en réalité juste deux programmes (= deux fichiers .c avec chacun leur main).
@@ -8,8 +26,8 @@ Projet du 3ème cercle du cursus 42
 - Le serveur imprime son PID puis tourne à l'infini, afin d'être constamment prêt à recevoir les signaux du clients. Il "décrypte" le message envoyé par le client et l'imprime.
 - Les deux programmes doivent donc tourner en même temps: on appelle ça des process. 
 - Le Makefile doit créer deux exécutables, un par process/programme/fichier.c avec main. Lancer d'abord le serveur puis le client.
+Droit à une globale par process si elle a du sens, et à autant de var static que je veux.
 Apparemment faut initialiser des trucs (?) mais pas besoin de déclarer la structure sigaction (?) qui est en fait aussi une fonction (?) et puis pour l'encryptage il faut shift des bits parce que??
-Droit à une globale par process si elle a du sens (?), et apparemment à autant de var static que je veux (?)
 
 ## server.c (pseudo-code)
 
