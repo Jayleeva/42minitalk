@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include <stdio.h>
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
@@ -31,17 +30,3 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	}
 	return (dest);
 }
-
-/*int	main(void)
-{
-	char		dest[7] = "abcdef";
-	char		dest2[7] = "abcdef";
-	const char	src[7] = "ahahah";
-	size_t		n = 5;
-	char		*result;
-
-	result = ft_memcpy(dest, src, n);
-	printf("CUSTOM : %s\n", result);
-	result = memcpy(dest2, src, n);
-	printf("OFFCIAL : %s\n", result);
-}*/

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include <stdio.h>
 
 void	*ft_memset(void *b, int c, size_t len)
 {
@@ -27,14 +26,3 @@ void	*ft_memset(void *b, int c, size_t len)
 	}
 	return (b);
 }
-
-/*int	main(void)
-{
-	char	b[6] = "asd";
-	char	b2[6] = "asd";
-	int		c = 65;
-	size_t	len = 5;
-
-	printf("CUSTOM = %s\n", ft_memset(b, c, len));
-	printf("OFFICIAL = %s\n", memset(b2, c, len));
-}*/

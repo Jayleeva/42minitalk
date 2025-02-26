@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include <stdio.h>
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
@@ -34,17 +33,3 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	}
 	return (dest);
 }
-
-/*int	main(void)
-{
-	char		dest[7] = "abcdef";
-	char		dest2[7] = "abcdef";
-	const char	src[7] = "ahahah";
-	size_t		n = 4;
-	char		*result;
-
-	result = ft_memmove(dest, src, n);	
-	printf("CUSTOM : %s\n", result);
-	result = memmove(dest2, src, n);
-	printf("OFFICIAL : %s\n", result);
-}*/

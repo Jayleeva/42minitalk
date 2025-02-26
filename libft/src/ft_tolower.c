@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include <stdio.h>
 
 int	ft_tolower(int c)
 {
@@ -19,15 +18,3 @@ int	ft_tolower(int c)
 		c += 32;
 	return (c);
 }
-
-/*int	main(void)
-{
-	int	c;
-
-	c = 65;
-	c = ft_tolower(c);
-	printf("CUSTOM : %d\n", c);
-	c = 65;
-	c = tolower(c);
-	printf("OFFICIAL : %d\n", c);
-}*/

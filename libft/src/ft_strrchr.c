@@ -11,11 +11,10 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include <stdio.h>
 
 char	*ft_strrchr(const char *s, int c)
 {
-	size_t			i;
+	size_t	i;
 	char	*result;
 
 	c = (unsigned char)c;
@@ -31,15 +30,3 @@ char	*ft_strrchr(const char *s, int c)
 	}
 	return (result);
 }
-
-/*int	main(void)
-{
-	const char	s[7] = "CBDCF";
-	int			c = 67;
-	char		*result;
-   
-	result = ft_strrchr(s, c);
-	printf("CUSTOM : %s\n", result);
-	result = strrchr(s, c);
-	printf("OFFICIAL : %s\n", result);	
-}*/

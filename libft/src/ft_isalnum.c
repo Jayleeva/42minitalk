@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include <stdio.h>
 
 int	ft_isalnum(int c)
 {
@@ -20,14 +19,3 @@ int	ft_isalnum(int c)
 	else
 		return (0);
 }
-
-/*int	main(void)
-{
-	int	i = 'Z';
-	int	result;
-
-	result = ft_isalnum(i);
-	printf("CUSTOM = %d\n", result);
-	result = isalnum(i);
-	printf("OFFICIAL = %d\n", result);
-}*/

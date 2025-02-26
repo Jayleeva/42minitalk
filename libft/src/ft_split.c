@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include <stdio.h>
 
 void	free_tab(char **tab)
 {
@@ -81,19 +80,3 @@ char	**ft_split(char const *s, char c)
 	tab[i] = NULL;
 	return (tab);
 }
-
-/*int	main(void)
-{
-	char const	s[] = "Salut ca va?||-Non et toi?|-Bien merci.|||-Cool.";
-	char		c = '|';
-	char		**result;
-	int			i;
-
-	result = ft_split(s, c);
-	i = 0;
-	while (result[i])
-	{
-		printf("\n%s", result[i]);
-		i ++;
-	}
-}*/

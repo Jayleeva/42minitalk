@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include <stdio.h>
 
 char	*ft_strchr(const char *s, int c)
 {
@@ -29,15 +28,3 @@ char	*ft_strchr(const char *s, int c)
 	}
 	return (NULL);
 }
-
-/*int	main(void)
-{
-	const char	s[7] = "ABCDEF";
-	int			c = 68;
-	char		*result;
-   
-	result = ft_strchr(s, c);
-	printf("CUSTOM : %s\n", result);
-	result = strchr(s, c);
-	printf("OFFICIAL : %s\n", result);
-}*/

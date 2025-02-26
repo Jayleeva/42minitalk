@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include <stdio.h>
 
 void	ft_bzero(void *s, size_t n)
 {
@@ -26,13 +25,3 @@ void	ft_bzero(void *s, size_t n)
 		i ++;
 	}
 }
-
-/*int	main(void)
-{
-	char	s[] = "help";
-	char	s2[] = "help";
-	size_t	n = 4;
-	
-	ft_bzero(s, n);
-	bzero(s2, n);
-}*/

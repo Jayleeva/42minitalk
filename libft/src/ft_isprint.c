@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include <stdio.h>
 
 int	ft_isprint(int c)
 {
@@ -20,14 +19,3 @@ int	ft_isprint(int c)
 	else
 		return (0);
 }
-
-/*int	main(void)
-{
-	int	i = 30;
-	int	result;
-
-	result = ft_isprint(i);
-	printf("CUSTOM = %d\n", result);
-	result = isprint(i);
-	printf("OFFICIAL = %d\n", result);
-}*/

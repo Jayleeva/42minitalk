@@ -57,11 +57,11 @@ void	ft_putnbr_fd(int n, int fd);
 void	free_tab(char **tab);
 
 //printf
-int	    putchar_fd_pf(char c, int fd, int result);
-int	    putstr_fd_pf(char *s, int fd, int result);
+int		putchar_fd_pf(char c, int fd, int result);
+int		putstr_fd_pf(char *s, int fd, int result);
 char	*ft_itoa_base(unsigned long long n, unsigned long long base);
-int     print_pointer(unsigned long long p, int result);
-int     print_unsigned(unsigned int u, char type, int result);
-int	    ft_printf(const char *s, ...);
+int		print_pointer(unsigned long long p, int result);
+int		print_unsigned(unsigned int u, char type, int result);
+int		ft_printf(const char *s, ...);
 
 #endif

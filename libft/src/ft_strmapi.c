@@ -10,16 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
-//#include <stdio.h>
-
-/*static char	toupper_(unsigned int i, char c)
-{
-	printf("%d", i);
-	if (c >= 'a' && c <= 'z')
-		return (c - 32);
-	else
-		return (c);
-}*/
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
@@ -40,12 +30,3 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	result[i] = '\0';
 	return (result);
 }
-
-/*int	main(void)
-{
-	const char	s[] = "AbC";
-	char		*result;
-
-	result = ft_strmapi(s, toupper_);
-	printf("\n%s", result);
-}*/

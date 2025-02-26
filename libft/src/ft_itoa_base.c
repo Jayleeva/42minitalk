@@ -14,7 +14,7 @@
 
 static int	get_nelem_base(unsigned long long n, unsigned long long base)
 {
-	int					nelem;
+	int	nelem;
 
 	nelem = 0;
 	while (n > 0)
@@ -27,9 +27,9 @@ static int	get_nelem_base(unsigned long long n, unsigned long long base)
 
 char	*ft_itoa_base(unsigned long long n, unsigned long long base)
 {
-	char					*str;
-	int						nelem;
-	int						k;
+	char	*str;
+	int		nelem;
+	int		k;
 
 	nelem = get_nelem_base(n, base);
 	str = (char *)malloc((nelem + 1) * sizeof(char));

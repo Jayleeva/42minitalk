@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include <stdio.h>
 
 char	*ft_strdup(const char *src)
 {
@@ -30,15 +29,3 @@ char	*ft_strdup(const char *src)
 	copy[i] = '\0';
 	return (copy);
 }
-
-/*int main(void)
-{
-    const char  str[] = "hello world";
-    char        *result;
-	char		*result2;
-
-    result = ft_strdup(str);
-    printf("CUSTOM : %s\n", result);
-	result2 = strdup(str);
-    printf("OFFICIAL : %s\n", result2);
-}*/

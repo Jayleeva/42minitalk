@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include <stdio.h>
 
 char	*ft_strnstr(const char *str, const char *to_find, size_t n)
 {
@@ -32,16 +31,3 @@ char	*ft_strnstr(const char *str, const char *to_find, size_t n)
 	}
 	return (NULL);
 }
-
-/*int	main(void)
-{
-	const char	str[100] = "Mais vous savez moi je crois pas...";
-	const char	to_find[10] = "savez";
-	size_t		n = 15;
-	char		*result;
-	
-	result = ft_strnstr(str, to_find, n);
-	printf("CUSTOM : %s\n", result);
-	result = ft_strnstr(str, to_find, n);
-	printf("OFFICIAL : %s\n", result);
-}*/

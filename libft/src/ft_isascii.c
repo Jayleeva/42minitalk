@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
-//#include <stdio.h>
 
 int	ft_isascii(int c)
 {
@@ -19,14 +18,3 @@ int	ft_isascii(int c)
 	else
 		return (0);
 }
-
-/*int	main(void)
-{
-	int	i = -1;
-	int	result;
-
-	result = ft_isascii(i);
-	printf("CUSTOM = %d\n", result);
-	result = isascii(i);
-	printf("OFFICIAL = %d\n", result);
-}*/

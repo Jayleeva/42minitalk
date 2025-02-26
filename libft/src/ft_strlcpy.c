@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include <stdio.h>
 
 size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize)
 {
@@ -27,17 +26,3 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize)
 	}
 	return (len);
 }
-
-/*int	main(void)
-{
-	char		dest[7] = "abcdef";
-	char		dest2[7] = "abcdef";
-	const char	src[9] = "ahahahah";
-	size_t		dstsize = 7;
-	size_t		result;
-
-	result = ft_strlcpy(dest, src, dstsize);
-	printf("CUSTOM : %zu\n%s\n", result, dest);
-	result = strlcpy(dest2, src, dstsize);
-	printf("OFFICIAL : %zu\n%s\n", result, dest2);
-}*/

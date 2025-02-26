@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include <stdio.h>
 
 int	ft_toupper(int c)
 {
@@ -19,14 +18,3 @@ int	ft_toupper(int c)
 		c -= 32;
 	return (c);
 }
-
-/*int	main(void)
-{
-	int	c = 98;
-
-	c = ft_toupper(c);
-	printf("CUSTOM : %d\n", c);
-	c = 98;
-	c = toupper(c);
-	printf("OFFICIAL : %d\n", c);
-}*/

@@ -4,8 +4,12 @@ LIBFT = libft
 LIBFT_DIR := ./libft
 LIBFT_LIB := $(LIBFT_DIR)/$(LIBFT)
 
+SRC_DIR = ./src
 SRC_SERVER = server.c
-SRC_CLIENT = client.c
+SRC_CLIENT = client.c is_int.c
+SRC_SERVER := $(addprefix $(SRC_DIR)/, $(SRC_SERVER))
+SRC_CLIENT := $(addprefix $(SRC_DIR)/, $(SRC_CLIENT))
+
 OBJ_SERVER = $(SRC_SERVER:.c=.o)
 OBJ_CLIENT = $(SRC_CLIENT:.c=.o)
 

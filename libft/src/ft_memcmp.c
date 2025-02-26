@@ -11,11 +11,10 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include <stdio.h>
 
 int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	size_t		i;
+	size_t	i;
 	char	*s1_;
 	char	*s2_;
 
@@ -30,16 +29,3 @@ int	ft_memcmp(const void *s1, const void *s2, size_t n)
 	}
 	return (0);
 }
-
-/*int	main(void)
-{
-	const char	s1[6] = "Hello";
-	const char	s2[6] = "Hell!";
-	size_t		n = 5;
-	int			result;
-	
-	result = ft_memcmp(s1, s2, n);
-	printf("CUSTOM : %d\n", result);
-	result = memcmp(s1, s2, n);
-	printf("OFFICIAL : %d\n", result);
-}*/

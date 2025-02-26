@@ -11,13 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include <stdio.h>
-
-/*static void	toupper_(unsigned int i, char *str)
-{
-	if (str[i] >= 'a' && str[i] <= 'z')
-		str[i] -= 32;
-}*/
 
 void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
@@ -30,10 +23,3 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 		i ++;
 	}
 }
-
-/*int	main(void)
-{
-	char	s[] = "aBc";
-
-	ft_striteri(s, toupper_);
-}*/

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include <stdio.h>
 
 void	*ft_calloc(size_t nelem, size_t elsize)
 {
@@ -23,16 +22,3 @@ void	*ft_calloc(size_t nelem, size_t elsize)
 	ptr = ft_memset(ptr, 0, nelem * elsize);
 	return (ptr);
 }
-
-/*int	main(void)
-{
-	size_t	nelem = 0;
-	size_t	elsize = sizeof(int);
-	char	*result;
-	char	*result2;
-
-	result = ft_calloc(nelem, elsize);
-	printf("CUSTOM : %s\n", result);
-	result2 = calloc(nelem, elsize);
-	printf("OFFICIAL : %s\n", result2);
-}*/

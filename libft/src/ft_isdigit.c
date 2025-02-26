@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include <stdio.h>
 
 int	ft_isdigit(int c)
 {
@@ -20,14 +19,3 @@ int	ft_isdigit(int c)
 	else
 		return (0);
 }
-
-/*int	main(void)
-{
-	int	i = '1';
-	int	result;
-
-	result = ft_isdigit(i);
-	printf("CUSTOM = %d\n", result);
-	result = isdigit(i);
-	printf("OFFICIAL = %d\n", result);
-}*/

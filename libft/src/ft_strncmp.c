@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include <stdio.h>
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
@@ -26,16 +25,3 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return (0);
 }
-
-/*int main(void)
-{
-	const char  s1[6] = "Hello";
-	const char  s2[6] = "Hell!";
-	size_t		n = 5;
-	int result;
-
-	result = ft_strncmp(s1, s2, n);
-	printf("CUSTOM : %d\n", result);
-	result = strncmp(s1, s2, n);
-	printf("OFFICIAL : %d\n", result);
-}*/
