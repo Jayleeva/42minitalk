@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../libft/inc/libft.h"
-#include "../inc/minitalk.h"
+#include "minitalk.h"
 
 void	send_bit_by_bit(int pid, char c)
 {
@@ -22,15 +22,12 @@ void	send_bit_by_bit(int pid, char c)
 	temp = c;
 	while (j)
 	{
-		int error = 32;
 		j --;
 		temp = c >> j;
 		if (temp % 2 == 0)
-			error = kill(pid, SIGUSR1);
+			kill(pid, SIGUSR1);
 		else
-			error = kill(pid, SIGUSR2);
-		if (error != 0)
-			ft_printf("%d\n", error);
+			kill(pid, SIGUSR2);
 		usleep(1000);
 	}
 }
