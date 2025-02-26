@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/inc/libft.h"
+#include "libft.h"
 #include "minitalk.h"
 
 void	send_bit_by_bit(int pid, char c)

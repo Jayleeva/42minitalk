@@ -10,24 +10,32 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/inc/libft.h"
+#include "libft.h"
 #include "minitalk.h"
+
+int client_pid;
 
 void    handle_signal(int sig, siginfo_t *info, void *ucontext)
 {
-    (void)info;
+    //(void)info;
     (void)ucontext;
     static unsigned char    c = 0;
     static int              i = 0;
+    static int              j = 0;
 
+    if (j == 0)
+        client_pid = info->si_pid;
+    else
+    {
+        if (info->si_pid != client_pid)
+        {
+            j ++;
+            return;
+        }
+        j ++;
+    }
     c |= (sig == SIGUSR2);
     i ++;
-
-    if (sig == SIGUSR2)
-        write(2, "1", 1);
-    else
-        write(2, "0", 1);
-    //ft_printf("%d %d ", sig, info->si_pid);
 
     if (i == 8)
     {
@@ -37,36 +45,33 @@ void    handle_signal(int sig, siginfo_t *info, void *ucontext)
             write(1, &c, 1);
         i = 0;
         c = 0;
-        write(2, "\n", 1);
+        //write(2, "\n", 1);
     }
     else
         c <<= 1;
+    //ft_printf("%d %d \n", sig, info->si_pid);
     usleep(1000);
 }
 
 int    main(void)
 {
     sigset_t            set;
-    struct sigaction    act1;
-    // struct sigaction    act2;
+    struct sigaction    server;
 
     sigemptyset(&set);
     sigaddset(&set, SIGUSR1);
     sigaddset(&set, SIGUSR2);
 
-    act1.sa_flags = SA_SIGINFO | SA_RESTART;
-    act1.sa_mask = set;
-    act1.sa_sigaction = &handle_signal;
-    // act2.sa_flags = SA_SIGINFO | SA_RESTART;
-    // act2.sa_mask = set;
-    // act2.sa_sigaction = &handle_signal;
+    server.sa_flags = SA_SIGINFO | SA_RESTART;
+    server.sa_mask = set;
+    server.sa_sigaction = &handle_signal;
 
     ft_printf("%d\n", getpid());
 
-    sigaction(SIGUSR1, &act1, NULL);
-    sigaction(SIGUSR2, &act1, NULL);
-    // signal(SIGUSR1, handle_signal);
-    // signal(SIGUSR2, handle_signal);
+    sigaction(SIGUSR1, &server, NULL);
+    sigaction(SIGUSR2, &server, NULL);
+    //signal(SIGUSR1, handle_signal);
+    //signal(SIGUSR2, handle_signal);
     while (1)
         usleep(100);
     return (0);
