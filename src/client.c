@@ -58,11 +58,10 @@ int	main(int argc, char **argv)
 	i = 0;
 	while (i < len)
 	{
-		usleep(100);
 		send_bit_by_bit(pid, message[i]);
+		usleep(100);
 		i ++;
 	}
-	usleep(100);
 	send_bit_by_bit(pid, '\0');
 	return (0);
 }
