@@ -50,7 +50,7 @@ void    handle_signal(int sig, siginfo_t *info, void *ucontext)
     else
         c <<= 1;
     //ft_printf("%d %d \n", sig, info->si_pid);
-    usleep(1000);
+    //usleep(1000);
 }
 
 int    main(void)
