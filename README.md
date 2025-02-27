@@ -5,6 +5,10 @@ Projet du 3ème cercle du cursus 42
 ## signal() // sigaction()
 La syntaxe de signal() est un peu déroutante: elle prend en premier argument le signal reçu (dans ce projet, soit SIGUSR1 soit SIGUSR2), et en deuxième argument la fonction à lancer quand un signal est reçu, qui elle-même prend le signal reçu en argument, de manière sous-entendue. En gros, elle vérifie si on a bien reçu un signal SIGUSR1 ou SIGUSR2, et si oui, elle lance la fonction handle_signal() avec en argument SIGUSR1/2.
 
+Sigaction de son cote est encore plus deroutante. Il faut la declarer en type structure ``struct sigaction your_struct_name``, puis declarer ses proprietes, par ex ``your_struct_name.sa_flags = your_flag1 | your_flag2;``, ``your_struct_name.sa_mask = your_set_name`` et ``your_struct_name.sa_sigaction = &your_function``. Ensuite, pour que le programme puisse recevoir le signal, on l'appelle ainsi: ``sigaction(your_signal, &your_struct_name, NULL);``. Si vous souhaitez utiliser un mask, il faut le declarer: ``sigset_t your_set_name`` et l'assigner: ``sigemptyset(&your_set_name); sigaddset(&your_set_name, your_signal);``. Le sigemptyset permet de s'assurer que le set est vide, et le sigaddset permet d'y ajouter les signaux que l'on desire.
+
+Que choisir entre sigaction et signal? Si signal() est plus facile a comprendre, elle est aussi moins forte: elle peut etre parasitee par d'autres signaux, ne permet pas de passer des infos supplementaires comme le PID de l'envoyeur, est globalement moins "malleable".  
+
 ## SIGUSR1 et SIGUSR2
 Ce sont des signaux de base déterminés par l'utilisateur-ice ou plutôt lae développeur-euse. Dans ce projet par exemple, j'ai choisi d'envoyer SIGUSR1 quand je veux signaler que le bit traité est un 0, et SIGUSR2 pour les 1. Ainsi, à l'endroit du code qui doit envoyer un 0, j'envoie SIGUSR1, et à l'endroit du code qui doit traiter le signal, je dis que si on a reçu un SIGUSR1, il faut comprendre et donc traiter le bit actuel comme un 0. Et inversément pour les 1. 
 
@@ -18,6 +22,9 @@ Le PID (= identificateur de process) sert à... identifier le process. Cela perm
 
 ## exit()
 La méthode exit() permet de quitter le programme "normalement". Si vous devez faire cesser votre programme dans une situation définie qui n'est pas simplement "arriver à la dernière ligne", utilisez exit(). Dans ce projet, on l'utilise lorsqu'une erreur est détectée.
+
+##sleep() | usleep() | pause()
+Toutes ces methodes servent a mettre un processus en pause pendant un temps defini. Par defaut, pause() agit pendant 100 microsecondes, ce qui revient au meme qu'ecrire ``usleep(100)``. La difference entre sleep() et usleep() repose dans l'unite utilisee: sleep() agit en secondes, et ulseep() en microsecondes.
 
 ## Bit shifting
 Pour être sûr-e de pouvoir transmettre n'importe quel caractère avec une seule et même méthode, le plus simple est encore de s'en remettre au binaire. Dans ce projet, on transmet donc les caractères bit par bit, en prenant soin de commencer par le dernier bit du premier char. A la réception, on n'oublie donc pas, à chaque nouveau bit reçu, de décaler de 1 les bits du char actuellement traité: ``current_char <<= 1``. Je n'ai pas encore compris pourquoi on ne pourrait pas juste les passer dans le bon ordre dès le début: je suppose que c'est du au fonctionnement du binaire en lui-même.
