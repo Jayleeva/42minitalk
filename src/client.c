@@ -13,6 +13,14 @@
 #include "libft.h"
 #include "minitalk.h"
 
+int	can_send = 1;
+
+void    handle_signal_client(int sig)
+{
+	if (sig == SIGUSR2)
+		can_send = 1;
+}
+
 void	send_bit_by_bit(int pid, char c)
 {
 	unsigned char	temp;
@@ -22,13 +30,18 @@ void	send_bit_by_bit(int pid, char c)
 	temp = c;
 	while (j)
 	{
-		j --;
-		temp = c >> j;
-		if (temp % 2 == 0)
-			kill(pid, SIGUSR1);
-		else
-			kill(pid, SIGUSR2);
-		usleep(1000);
+		if (can_send)
+		{
+			j --;
+			temp = c >> j;
+			if (temp % 2 == 0)
+				kill(pid, SIGUSR1);
+			else
+				kill(pid, SIGUSR2);
+			can_send = 0;
+			signal(SIGUSR2, handle_signal_client);
+			//usleep(1000);
+		}
 	}
 }
 

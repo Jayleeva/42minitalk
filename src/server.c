@@ -34,6 +34,7 @@ void    handle_signal(int sig, siginfo_t *info, void *ucontext)
         }
         j ++;
     }
+    kill(client_pid, SIGUSR2);
     c |= (sig == SIGUSR2);
     i ++;
 
