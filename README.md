@@ -23,7 +23,7 @@ Le PID (= identificateur de process) sert à... identifier le process. Cela perm
 ## exit()
 La méthode exit() permet de quitter le programme "normalement". Si vous devez faire cesser votre programme dans une situation définie qui n'est pas simplement "arriver à la dernière ligne", utilisez exit(). Dans ce projet, on l'utilise lorsqu'une erreur est détectée.
 
-##sleep() | usleep() | pause()
+## sleep() | usleep() | pause()
 Toutes ces methodes servent a mettre un processus en pause pendant un temps defini. Par defaut, pause() agit pendant 100 microsecondes, ce qui revient au meme qu'ecrire ``usleep(100)``. La difference entre sleep() et usleep() repose dans l'unite utilisee: sleep() agit en secondes, et ulseep() en microsecondes.
 
 ## Bit shifting
