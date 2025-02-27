@@ -32,15 +32,14 @@ void	send_bit_by_bit(int pid, char c)
 	{
 		if (can_send)
 		{
+			can_send = 0;
 			j --;
 			temp = c >> j;
 			if (temp % 2 == 0)
 				kill(pid, SIGUSR1);
 			else
 				kill(pid, SIGUSR2);
-			can_send = 0;
 			signal(SIGUSR2, handle_signal_client);
-			//usleep(1000);
 		}
 	}
 }
@@ -71,7 +70,7 @@ int	main(int argc, char **argv)
 	while (i < len)
 	{
 		send_bit_by_bit(pid, message[i]);
-		usleep(1000);
+		usleep(100);
 		i ++;
 	}
 	send_bit_by_bit(pid, '\0');
