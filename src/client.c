@@ -28,7 +28,7 @@ void	send_bit_by_bit(int pid, char c)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		usleep(100);
+		usleep(1000);
 	}
 }
 
@@ -53,13 +53,12 @@ int	main(int argc, char **argv)
 	pid = atoi(argv[1]);
 	if (kill(pid, 0) < 0)
 		write_error_and_exit();
-
 	len = ft_strlen(message);
 	i = 0;
 	while (i < len)
 	{
 		send_bit_by_bit(pid, message[i]);
-		usleep(100);
+		usleep(1000);
 		i ++;
 	}
 	send_bit_by_bit(pid, '\0');

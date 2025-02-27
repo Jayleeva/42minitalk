@@ -73,6 +73,6 @@ int    main(void)
     //signal(SIGUSR1, handle_signal);
     //signal(SIGUSR2, handle_signal);
     while (1)
-        usleep(100);
+        pause();
     return (0);
 }
