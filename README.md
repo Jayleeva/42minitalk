@@ -36,6 +36,7 @@ Pour être sûr-e de pouvoir transmettre n'importe quel caractère avec une seul
 - on recommence en shiftant cette fois de 6 vers la droite; à la prochaine itération, ce sera de 5, puis de 4, etc. Ainsi, on parcourt et envoie l'entierté du byte, un bit à la fois.
 
 **Dans le serveur**
+
 Une statique de type unsigned char va "reconstruire" le byte envoyé bit par bit. D'abord initialisée à 0 (soit 00000000 en binaire), on lui applique ensuite (sur 8 itérations, puisqu'un byte est constitué de 8 bits) un OU logique ``unsigned_char |= (signal_recieved == SIGUSR_signaling_1)``: plusieurs choses se passent ici. Tout d'abord, on vérifie si le signal reçu est bien celui qui indique un 1: si c'est le cas, on compare donc notre unsigned char avec ``true``, soit 1, soit 00000001 en binaire, sinon, on le compare avec ``false``, soit 0, soit 00000000 en binaire. --> ``unsigned_char |= bit_recieved``. Puis notre unsigned char est réassigné: il prend comme valeur le résultat de: lui-même + (lui-même OU le bit reçu) --> ``unsigned_char = unsigned_char + (unsigned_char | bit_recieved)``. Kézako? Si un seul ou les deux éléments comparés valent 1, alors unsigned_char incrémentera de 1; si les deux valent 0, alors unsigned_char incrémentera de 0.
 
 Voici un exemple où l'unsigned char, d'abord assigné à 0, reçoit premièrement un 0, puis un 1, puis un 0, et ainsi de suite. A la fin des 8 itérations, il aura pris la valeur du char 'U': 01010101. 
