@@ -13,14 +13,14 @@
 #include "libft.h"
 #include "minitalk.h"
 
-int client_pid;
-
 void    handle_signal(int sig, siginfo_t *info, void *ucontext)
 {
-    (void)ucontext;
     static unsigned char    c = 0;
     static int              i = 0;
 
+    (void)ucontext;
+    //(void)info;
+    usleep(5);
     kill(info->si_pid, SIGUSR2);
     c |= (sig == SIGUSR2);
     i ++;
@@ -41,20 +41,18 @@ int    main(void)
 {
     sigset_t            set;
     struct sigaction    server;
-
     sigemptyset(&set);
     sigaddset(&set, SIGUSR1);
     sigaddset(&set, SIGUSR2);
-
     server.sa_flags = SA_SIGINFO | SA_RESTART;
     server.sa_mask = set;
     server.sa_sigaction = &handle_signal;
-
     ft_printf("%d\n", getpid());
-
-    sigaction(SIGUSR1, &server, NULL);
-    sigaction(SIGUSR2, &server, NULL);
     while (1)
+    {
+        sigaction(SIGUSR1, &server, NULL);
+        sigaction(SIGUSR2, &server, NULL);
         pause();
+    }
     return (0);
 }

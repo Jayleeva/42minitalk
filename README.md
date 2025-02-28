@@ -24,10 +24,39 @@ Le PID (= identificateur de process) sert à... identifier le process. Cela perm
 La méthode exit() permet de quitter le programme "normalement". Si vous devez faire cesser votre programme dans une situation définie qui n'est pas simplement "arriver à la dernière ligne", utilisez exit(). Dans ce projet, on l'utilise lorsqu'une erreur est détectée.
 
 ## sleep() | usleep() | pause()
-Toutes ces methodes servent a mettre un processus en pause pendant un temps defini. Par defaut, pause() agit pendant 100 microsecondes, ce qui revient au meme qu'ecrire ``usleep(100)``. La difference entre sleep() et usleep() repose dans l'unite utilisee: sleep() agit en secondes, et ulseep() en microsecondes.
+Toutes ces methodes servent à mettre un processus en pause pendant un temps défini. Par defaut, pause() agit pendant 100 microsecondes, ce qui revient au même qu'écrire ``usleep(100)``. La différence entre sleep() et usleep() repose dans l'unité utilisée: sleep() agit en secondes, et ulseep() en microsecondes.
 
 ## Bit shifting
-Pour être sûr-e de pouvoir transmettre n'importe quel caractère avec une seule et même méthode, le plus simple est encore de s'en remettre au binaire. Dans ce projet, on transmet donc les caractères bit par bit, en prenant soin de commencer par le dernier bit du premier char. A la réception, on n'oublie donc pas, à chaque nouveau bit reçu, de décaler de 1 les bits du char actuellement traité: ``current_char <<= 1``. Je n'ai pas encore compris pourquoi on ne pourrait pas juste les passer dans le bon ordre dès le début: je suppose que c'est du au fonctionnement du binaire en lui-même.
+Pour être sûr-e de pouvoir transmettre n'importe quel caractère avec une seule et même méthode, et en n'ayant droit qu'à deux signaux, le plus simple est encore de s'en remettre au binaire. Dans ce projet, on transmet donc les caractères bit par bit: 
+
+**Dans le client**
+- on "shift" tout d'abord notre char de 7 bits vers la droite dans une temporaire (afin de "pousser" le premier bit du premier char en dernier bit de la temporaire, sans modifier le char original). Ainsi, si le premier bit du premier char est égal à 1, la temporaire devient 00000001. S'il est égal à 0, la temporaire devient 00000000.
+- ensuite, on vérifie le modulo 2 de la temporaire (par ex.: 00000000 % 2), ce qui revient au final à vérifier le modulo 2 du dernier bit (puisque tous les autres sont des 0?). Si ce modulo est égal à 0, cela veut dire que le dernier bit est un 0, et qu'on doit donc lancer le signal qui indique un 0 (chez moi, SIGUSR1). L'inverse s'il est égal à 1. 
+- on lance le signal correspondant à la valeur du bit déterminée ci-dessus.
+- on recommence en shiftant cette fois de 6 vers la droite; à la prochaine itération, ce sera de 5, puis de 4, etc. Ainsi, on parcourt et envoie l'entierté du byte, un bit à la fois.
+**Dans le serveur**
+Une statique de type unsigned char va "reconstruire" le byte envoyé bit par bit. D'abord initialisée à 0 (soit 00000000 en binaire), on lui applique ensuite (sur 8 itérations, puisqu'un byte est constitué de 8 bits) un OU logique ``unsigned_char |= (signal_recieved == SIGUSR_signaling_1)``: plusieurs choses se passent ici. Tout d'abord, on vérifie si le signal reçu est bien celui qui indique un 1: si c'est le cas, on compare donc notre unsigned char avec ``true``, soit 1, soit 00000001 en binaire, sinon, on le compare avec ``false``, soit 0, soit 00000000 en binaire. --> ``unsigned_char |= bit_recieved``. Puis notre unsigned char est réassigné: il prend comme valeur le résultat de: lui-même + (lui-même OU le bit reçu) --> ``unsigned_char = unsigned_char + (unsigned_char | bit_recieved)``. Kézako? Si un seul ou les deux éléments comparés valent 1, alors unsigned_char incrémentera de 1; si les deux valent 0, alors unsigned_char incrémentera de 0.
+
+Voici un exemple où l'unsigned char, d'abord assigné à 0, reçoit premièrement un 0, puis un 1, puis un 0, et ainsi de suite. A la fin des 8 itérations, il aura pris la valeur du char 'U': 01010101. 
+```
+   00000000 char assigné à 0
+   00000000 char réassigné à lui-même + 0, donc pas de changement
+0  00000000 dernier bit poussé (shifted) pour pouvoir accueillir le bit suivant; un nouveau zéro vient en "placeholder"; le premier bit en partant de la gauche est "sorti" du byte
+   00000001 char réassigné à lui-même + 1
+0  00000010 dernier bit poussé ...
+   00000010 char réassigné à lui-même + 0, donc pas de changement
+0  00000100 dernier bit poussé ...
+   00000101 char réassigné à lui-même + 1
+0  00001010 etc.
+   00001010
+0  00010100
+   00010101
+0  00101010
+   00101010
+0  01010100
+   01010101
+```
+
 
 # Stratégie
 ## Fonctionnement global
