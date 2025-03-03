@@ -13,15 +13,15 @@
 #include "libft.h"
 #include "minitalk.h"
 
-int	can_send = 1;
+int	g_can_send = 1;
 
-void    handle_signal_client(int sig)
+void	handle_signal_client(int sig)
 {
 	if (sig == SIGUSR2)
-		can_send = 1;
+		g_can_send = 1;
 }
 
-void	send_bit_by_bit(int pid, unsigned char c) // besoin d'une temporaire!! sinon n'imprime rien voir plante. Pas compris pourquoi cela dit. Les vérifications si kill a bien fontionné amènent à des User defined signal 2 venus a priori du serveur; on constate aussi que l'envoi du signal est toujours réussi.
+void	send_bit_by_bit(int pid, unsigned char c)
 {
 	unsigned char	temp;
 	int				j;
@@ -30,35 +30,15 @@ void	send_bit_by_bit(int pid, unsigned char c) // besoin d'une temporaire!! sino
 	temp = c;
 	while (j)
 	{
-		if (can_send)
+		if (g_can_send)
 		{
-			can_send = 0;
+			g_can_send = 0;
 			j --;
 			temp = c >> j;
 			if (temp % 2 == 0)
-					kill(pid, SIGUSR1);
+				kill(pid, SIGUSR1);
 			else
-					kill(pid, SIGUSR2);
-			/*if (temp % 2 == 0)
-			{
-				if (kill(pid, SIGUSR1) == -1)
-				{
-					kill(pid, SIGUSR1);
-					write(1, "\n!!ERROR SIGUSR1!!\n", 19);
-				}
-				else
-					write(1, "\n!!SIGUSR1 WORKED!!\n", 20);
-			}
-			else
-			{
-				if (kill(pid, SIGUSR2) == -1)
-				{
-					kill(pid, SIGUSR2);
-					write(1, "\n!!ERROR SIGUSR2!!\n", 19);
-				}
-				else
-					write(1, "\n!!SIGUSR2 WORKED!!\n", 20);
-			}*/
+				kill(pid, SIGUSR2);
 			signal(SIGUSR2, handle_signal_client);
 		}
 	}
@@ -83,7 +63,7 @@ int	main(int argc, char **argv)
 		write_error_and_exit();
 	message = argv[2];
 	pid = atoi(argv[1]);
-	if (kill(pid, 0) == -1) //si l'argument sig est mis à 0, aucune signal n'est envoyé mais l'accès au PID est vérifié. Ne devrait donc pas interférer avec le reste.
+	if (kill(pid, 0) == -1)
 		write_error_and_exit();
 	len = ft_strlen(message);
 	i = 0;

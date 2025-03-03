@@ -1,4 +1,17 @@
-#include "../libft/inc/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   is_int.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cyglardo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/03 10:10:06 by cyglardo          #+#    #+#             */
+/*   Updated: 2025/03/03 10:10:07 by cyglardo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+#include "minitalk.h"
 
 static int	is_number(char *s)
 {
@@ -14,7 +27,7 @@ static int	is_number(char *s)
 		if (s[i] < '0' || s[i] > '9')
 			return (1);
 		i ++;
-    }
+	}
 	return (0);
 }
 
@@ -45,7 +58,7 @@ static int	is_bigger_than_int(int k, int i, char *s, char *num)
 
 static int	is_int(char *s)
 {
-    int     i;
+	int		i;
 	int		k;
 	char	*num;
 
