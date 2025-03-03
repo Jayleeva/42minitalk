@@ -31,7 +31,7 @@ Pour être sûr-e de pouvoir transmettre n'importe quel caractère avec une seul
 
 **Dans le client**
 - on "shift" tout d'abord notre char de 7 bits vers la droite dans une temporaire (afin de "pousser" le premier bit du premier char en dernier bit de la temporaire, sans modifier le char original). Ainsi, si le premier bit du premier char est égal à 1, la temporaire devient 00000001. S'il est égal à 0, la temporaire devient 00000000.
-- ensuite, on vérifie le modulo 2 de la temporaire (par ex.: 00000000 % 2), ce qui revient au final à vérifier le modulo 2 du dernier bit (puisque tous les autres sont des 0?). Si ce modulo est égal à 0, cela veut dire que le dernier bit est un 0, et qu'on doit donc lancer le signal qui indique un 0 (chez moi, SIGUSR1). L'inverse s'il est égal à 1. 
+- ensuite, on vérifie le modulo 2 de la temporaire (par ex.: 00000000 % 2), ce qui revient au final à vérifier le modulo 2 du dernier bit (puisque 00000000 est egal a 0 et 00000001 est egal a 1). Si ce modulo est égal à 0, cela veut dire que le dernier bit est un 0, et qu'on doit donc lancer le signal qui indique un 0 (chez moi, SIGUSR1). L'inverse s'il est égal à 1. 
 - on lance le signal correspondant à la valeur du bit déterminée ci-dessus.
 - on recommence en shiftant cette fois de 6 vers la droite; à la prochaine itération, ce sera de 5, puis de 4, etc. Ainsi, on parcourt et envoie l'entierté du byte, un bit à la fois.
 
