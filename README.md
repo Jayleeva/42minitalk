@@ -44,19 +44,19 @@ Voici un exemple où l'unsigned char, d'abord assigné à 0, reçoit premièreme
 ```
    00000000 char assigné à 0
    00000000 char réassigné à lui-même + 0, donc pas de changement
-0  00000000 dernier bit poussé (shifted) pour pouvoir accueillir le bit suivant; un nouveau zéro vient en "placeholder"; le premier bit en partant de la gauche est "sorti" du byte
+0  00000000 <- dernier bit poussé (shifted) pour pouvoir accueillir le bit suivant; un nouveau zéro vient en "placeholder"; le premier bit en partant de la gauche est "sorti" du byte
    00000001 char réassigné à lui-même + 1
-0  00000010 dernier bit poussé ...
+0  00000010 <- dernier bit poussé ...
    00000010 char réassigné à lui-même + 0, donc pas de changement
-0  00000100 dernier bit poussé ...
+0  00000100 <- dernier bit poussé ...
    00000101 char réassigné à lui-même + 1
-0  00001010 etc.
+0  00001010 <- etc.
    00001010
-0  00010100
+0  00010100 <-
    00010101
-0  00101010
+0  00101010 <-
    00101010
-0  01010100
+0  01010100 <-
    01010101
 ```
 
