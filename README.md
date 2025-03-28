@@ -24,7 +24,12 @@ your_struct_name.sa_sigaction = &your_function
 
 Ensuite, pour que le programme puisse recevoir le signal, on l'appelle ainsi: ``sigaction(your_signal, &your_struct_name, NULL);``.
 
-Si vous souhaitez utiliser un mask, il faut déclarer un set: ``sigset_t your_set_name`` et l'assigner: ``sigemptyset(&your_set_name); sigaddset(&your_set_name, your_signal);``. Le sigemptyset permet de s'assurer que le set est vide, et le sigaddset permet d'y ajouter les signaux que l'on désire.
+Si vous souhaitez utiliser un mask, il faut déclarer un set: ``sigset_t your_set_name`` et l'assigner: 
+```
+sigemptyset(&your_set_name);
+sigaddset(&your_set_name, your_signal);
+```
+Le sigemptyset permet de s'assurer que le set est vide, et le sigaddset permet d'y ajouter les signaux que l'on désire.
 
 ### Que choisir entre sigaction et signal? 
 Si signal() est plus facile à comprendre, elle est aussi moins forte: elle peut être parasitée par d'autres signaux, ne permet pas de passer des infos supplémentaires comme le PID de l'envoyeur, est globalement moins "malléable".  
