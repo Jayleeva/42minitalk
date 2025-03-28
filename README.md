@@ -64,12 +64,13 @@ Voici un exemple où l'unsigned char, d'abord assigné à 0, reçoit premièreme
 # Stratégie
 ## Fonctionnement global
 - Le "client" et le "serveur" sont en réalité juste deux programmes (= deux fichiers .c avec chacun leur main).
-- Le client est exécuté avec le PID du serveur et un message en arguments, il "encrypte" le message puis utilise le PID du serveur et SIGURS1 pour envoyer "0" ou SIGURS2 pour envoyer "1" au serveur (je crois).
-- Le serveur imprime son PID puis tourne à l'infini, afin d'être constamment prêt à recevoir les signaux du clients. Il "décrypte" le message envoyé par le client et l'imprime.
-- Les deux programmes doivent donc tourner en même temps: on appelle ça des process. 
-- Le Makefile doit créer deux exécutables, un par process/programme/fichier.c avec main. Lancer d'abord le serveur puis le client.
-Droit à une globale par process si elle a du sens, et à autant de var static que je veux.
-Apparemment faut initialiser des trucs (?) mais pas besoin de déclarer la structure sigaction (?) qui est en fait aussi une fonction (?) et puis pour l'encryptage il faut shift des bits parce que??
+- Le client est exécuté avec le PID du serveur et un message en arguments, il utilise le PID du serveur et SIGURS1 ou SIGURS2 pour envoyer "0" ou "1" au serveur, bit par bit, byte par byte, char par char, jusqu'à avoir envoyé tout le message par **bit shifting**.
+- Le serveur imprime son PID puis tourne à l'infini, afin d'être constamment prêt à recevoir les signaux du clients. Il reçoit chaque bit du message envoyé par le client, confirme la réception, et imprime les chars reconstitués par **bit shifting**.
+- Les deux programmes doivent donc tourner en même temps: on appelle ça du **multi-process**. 
+- Le Makefile doit créer deux exécutables, un par process/programme/fichier.c avec main.
+- Lancer d'abord le serveur puis le client.
+
+Droit à une globale par process si elle a du sens, et à autant de variables statiques que souhaité.
 
 ## server.c (pseudo-code)
 
