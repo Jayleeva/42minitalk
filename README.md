@@ -51,6 +51,8 @@ La méthode exit() permet de quitter le programme "normalement". Si vous devez f
 ## sleep() | usleep() | pause()
 Toutes ces methodes servent à mettre un processus en pause pendant un temps défini. Par defaut, pause() agit pendant 100 microsecondes, ce qui revient au même qu'écrire ``usleep(100)``. La différence entre sleep() et usleep() repose dans l'unité utilisée: sleep() agit en secondes, et ulseep() en microsecondes.
 
+Dans ce projet, vous serez amené à placer des sleep / usleep / pause par-ci par-là pour assurer que les deux process parviennent à faire ce qui leur est demandé à temps, et que chaque info naviguant de l'un à l'autre arrive au bon moment. 
+
 ## Bit shifting
 Pour être sûr-e de pouvoir transmettre n'importe quel caractère avec une seule et même méthode, et en n'ayant droit qu'à deux signaux, le plus simple est encore de s'en remettre au binaire. Dans ce projet, on transmet donc les caractères bit par bit: 
 
