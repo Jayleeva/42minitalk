@@ -15,7 +15,7 @@ Projet du 3ème cercle du cursus 42
 La syntaxe de signal() est un peu déroutante: elle prend en premier argument le signal reçu (dans ce projet, soit SIGUSR1 soit SIGUSR2), et en deuxième argument la fonction à lancer quand un signal est reçu, qui elle-même prend le signal reçu en argument, de manière sous-entendue. En gros, elle vérifie si on a bien reçu un signal SIGUSR1 ou SIGUSR2, et si oui, elle lance la fonction handle_signal() avec en argument SIGUSR1/2.
 
 ### sigaction()
-Sigaction de son cote est encore plus déroutante. Il faut la déclarer en type structure ``struct sigaction your_struct_name``, puis déclarer ses propriétés, par ex:
+Sigaction de son côté est encore plus déroutante. Il faut la déclarer en type structure ``struct sigaction your_struct_name``, puis déclarer ses propriétés, par ex:
 ```
 your_struct_name.sa_flags = your_flag1 | your_flag2;
 your_struct_name.sa_mask = your_set_name
@@ -24,15 +24,15 @@ your_struct_name.sa_sigaction = &your_function
 
 Ensuite, pour que le programme puisse recevoir le signal, on l'appelle ainsi: ``sigaction(your_signal, &your_struct_name, NULL);``.
 
-Si vous souhaitez utiliser un mask, il faut déclarer un set: ``sigset_t your_set_name`` et l'assigner: ``sigemptyset(&your_set_name); sigaddset(&your_set_name, your_signal);``. Le sigemptyset permet de s'assurer que le set est vide, et le sigaddset permet d'y ajouter les signaux que l'on desire.
+Si vous souhaitez utiliser un mask, il faut déclarer un set: ``sigset_t your_set_name`` et l'assigner: ``sigemptyset(&your_set_name); sigaddset(&your_set_name, your_signal);``. Le sigemptyset permet de s'assurer que le set est vide, et le sigaddset permet d'y ajouter les signaux que l'on désire.
 
 ### Que choisir entre sigaction et signal? 
-Si signal() est plus facile a comprendre, elle est aussi moins forte: elle peut etre parasitee par d'autres signaux, ne permet pas de passer des infos supplementaires comme le PID de l'envoyeur, est globalement moins "malleable".  
+Si signal() est plus facile à comprendre, elle est aussi moins forte: elle peut etre parasitée par d'autres signaux, ne permet pas de passer des infos supplémentaires comme le PID de l'envoyeur, est globalement moins "malléable".  
 
 ## SIGUSR1 et SIGUSR2
 Ce sont des signaux de base déterminés par l'utilisateur-ice ou plutôt lae développeur-euse. Dans ce projet par exemple, j'ai choisi d'envoyer SIGUSR1 quand je veux signaler que le bit traité est un 0, et SIGUSR2 pour les 1. Ainsi, à l'endroit du code qui doit envoyer un 0, j'envoie SIGUSR1, et à l'endroit du code qui doit traiter le signal, je dis que si on a reçu un SIGUSR1, il faut comprendre et donc traiter le bit actuel comme un 0. Et inversément pour les 1. 
 
-A retenir: SIGUSR1 et SIGUSR2 n'envoient rien en soi. C'est à vous de définir, au moment d'envoyer l'un où l'autre, sous quelles conditions les envoyer *eux*. Ils ne transportent aucune information, aucune valeur, aucune donnée. C'est à vous de savoir que vous envoyez SIGUSR1 dans la situation x et SIGUSR2 dans la situation y, et donc de traiter cette info en conséquence. 
+**A retenir**: SIGUSR1 et SIGUSR2 n'envoient rien en soi. C'est à vous de définir, au moment d'envoyer l'un où l'autre, sous quelles conditions les envoyer *eux*. Ils ne transportent aucune information, aucune valeur, aucune donnée. C'est à vous de savoir que vous envoyez SIGUSR1 dans la situation x et SIGUSR2 dans la situation y, et donc de traiter cette info en conséquence. 
 
 ## kill()
 Le choix du nom de la méthode kill() vient de son histoire. A l'origine, elle servait uniquement à "tuer" des process. Petit à petit, l'utilisation s'est agrandie, mais le terme est resté. Dans ce projet, on l'utilise pour interrompre le process du serveur afin qu'il sorte de sa boucle infinie le temps de gérer le signal reçu.
