@@ -15,7 +15,12 @@ Projet du 3ème cercle du cursus 42
 La syntaxe de signal() est un peu déroutante: elle prend en premier argument le signal reçu (dans ce projet, soit SIGUSR1 soit SIGUSR2), et en deuxième argument la fonction à lancer quand un signal est reçu, qui elle-même prend le signal reçu en argument, de manière sous-entendue. En gros, elle vérifie si on a bien reçu un signal SIGUSR1 ou SIGUSR2, et si oui, elle lance la fonction handle_signal() avec en argument SIGUSR1/2.
 
 ### sigaction()
-Sigaction de son cote est encore plus déroutante. Il faut la déclarer en type structure ``struct sigaction your_struct_name``, puis déclarer ses propriétés, par ex ``your_struct_name.sa_flags = your_flag1 | your_flag2;``, ``your_struct_name.sa_mask = your_set_name`` et ``your_struct_name.sa_sigaction = &your_function``.
+Sigaction de son cote est encore plus déroutante. Il faut la déclarer en type structure ``struct sigaction your_struct_name``, puis déclarer ses propriétés, par ex:
+```
+your_struct_name.sa_flags = your_flag1 | your_flag2;
+your_struct_name.sa_mask = your_set_name
+your_struct_name.sa_sigaction = &your_function
+```
 
 Ensuite, pour que le programme puisse recevoir le signal, on l'appelle ainsi: ``sigaction(your_signal, &your_struct_name, NULL);``.
 
