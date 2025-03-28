@@ -24,12 +24,10 @@ your_struct_name.sa_sigaction = &your_function
 
 Ensuite, pour que le programme puisse recevoir le signal, on l'appelle ainsi: ``sigaction(your_signal, &your_struct_name, NULL);``.
 
-Si vous souhaitez utiliser un mask, il faut déclarer un set: ``sigset_t your_set_name`` et l'assigner: ``sigemptyset(&your_set_name); sigaddset(&your_set_name, your_signal);``.
+Si vous souhaitez utiliser un mask, il faut déclarer un set: ``sigset_t your_set_name`` et l'assigner: ``sigemptyset(&your_set_name); sigaddset(&your_set_name, your_signal);``. Le sigemptyset permet de s'assurer que le set est vide, et le sigaddset permet d'y ajouter les signaux que l'on desire.
 
-Le sigemptyset permet de s'assurer que le set est vide, et le sigaddset permet d'y ajouter les signaux que l'on desire.
-
-
-Que choisir entre sigaction et signal? Si signal() est plus facile a comprendre, elle est aussi moins forte: elle peut etre parasitee par d'autres signaux, ne permet pas de passer des infos supplementaires comme le PID de l'envoyeur, est globalement moins "malleable".  
+### Que choisir entre sigaction et signal? 
+Si signal() est plus facile a comprendre, elle est aussi moins forte: elle peut etre parasitee par d'autres signaux, ne permet pas de passer des infos supplementaires comme le PID de l'envoyeur, est globalement moins "malleable".  
 
 ## SIGUSR1 et SIGUSR2
 Ce sont des signaux de base déterminés par l'utilisateur-ice ou plutôt lae développeur-euse. Dans ce projet par exemple, j'ai choisi d'envoyer SIGUSR1 quand je veux signaler que le bit traité est un 0, et SIGUSR2 pour les 1. Ainsi, à l'endroit du code qui doit envoyer un 0, j'envoie SIGUSR1, et à l'endroit du code qui doit traiter le signal, je dis que si on a reçu un SIGUSR1, il faut comprendre et donc traiter le bit actuel comme un 0. Et inversément pour les 1. 
