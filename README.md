@@ -1,11 +1,28 @@
-# 42minitalk
 Projet du 3ème cercle du cursus 42
+
+# Stratégie
+## Fonctionnement global
+- Le "client" et le "serveur" sont en réalité juste deux programmes (= deux fichiers .c avec chacun leur main).
+- Utilisation: lancer d'abord le serveur puis le client.
+- Le client est exécuté avec le PID du serveur et un message en arguments, il utilise le PID du serveur et SIGURS1 ou SIGURS2 pour envoyer "0" ou "1" au serveur, bit par bit, byte par byte, char par char, jusqu'à avoir envoyé tout le message par **bit shifting**.
+- Le serveur imprime son PID puis tourne à l'infini, afin d'être constamment prêt à recevoir les signaux du clients. Il reçoit chaque bit du message envoyé par le client, confirme la réception grâce à une variable globale, et imprime les chars reconstitués par **bit shifting**.
+- Les deux programmes doivent donc tourner en même temps: on appelle ça du **multi-process**. 
+- Le Makefile doit créer deux exécutables, un par process/programme/fichier.c avec main.
 
 # Notions importantes
 ## signal() // sigaction()
+### signal()
 La syntaxe de signal() est un peu déroutante: elle prend en premier argument le signal reçu (dans ce projet, soit SIGUSR1 soit SIGUSR2), et en deuxième argument la fonction à lancer quand un signal est reçu, qui elle-même prend le signal reçu en argument, de manière sous-entendue. En gros, elle vérifie si on a bien reçu un signal SIGUSR1 ou SIGUSR2, et si oui, elle lance la fonction handle_signal() avec en argument SIGUSR1/2.
 
-Sigaction de son cote est encore plus deroutante. Il faut la declarer en type structure ``struct sigaction your_struct_name``, puis declarer ses proprietes, par ex ``your_struct_name.sa_flags = your_flag1 | your_flag2;``, ``your_struct_name.sa_mask = your_set_name`` et ``your_struct_name.sa_sigaction = &your_function``. Ensuite, pour que le programme puisse recevoir le signal, on l'appelle ainsi: ``sigaction(your_signal, &your_struct_name, NULL);``. Si vous souhaitez utiliser un mask, il faut declarer un set: ``sigset_t your_set_name`` et l'assigner: ``sigemptyset(&your_set_name); sigaddset(&your_set_name, your_signal);``. Le sigemptyset permet de s'assurer que le set est vide, et le sigaddset permet d'y ajouter les signaux que l'on desire.
+### sigaction()
+Sigaction de son cote est encore plus déroutante. Il faut la déclarer en type structure ``struct sigaction your_struct_name``, puis déclarer ses propriétés, par ex ``your_struct_name.sa_flags = your_flag1 | your_flag2;``, ``your_struct_name.sa_mask = your_set_name`` et ``your_struct_name.sa_sigaction = &your_function``.
+
+Ensuite, pour que le programme puisse recevoir le signal, on l'appelle ainsi: ``sigaction(your_signal, &your_struct_name, NULL);``.
+
+Si vous souhaitez utiliser un mask, il faut déclarer un set: ``sigset_t your_set_name`` et l'assigner: ``sigemptyset(&your_set_name); sigaddset(&your_set_name, your_signal);``.
+
+Le sigemptyset permet de s'assurer que le set est vide, et le sigaddset permet d'y ajouter les signaux que l'on desire.
+
 
 Que choisir entre sigaction et signal? Si signal() est plus facile a comprendre, elle est aussi moins forte: elle peut etre parasitee par d'autres signaux, ne permet pas de passer des infos supplementaires comme le PID de l'envoyeur, est globalement moins "malleable".  
 
@@ -58,88 +75,4 @@ Voici un exemple où l'unsigned char, d'abord assigné à 0, reçoit premièreme
    00101010
 0  01010100 <-
    01010101
-```
-
-
-# Stratégie
-## Fonctionnement global
-- Le "client" et le "serveur" sont en réalité juste deux programmes (= deux fichiers .c avec chacun leur main).
-- Le client est exécuté avec le PID du serveur et un message en arguments, il utilise le PID du serveur et SIGURS1 ou SIGURS2 pour envoyer "0" ou "1" au serveur, bit par bit, byte par byte, char par char, jusqu'à avoir envoyé tout le message par **bit shifting**.
-- Le serveur imprime son PID puis tourne à l'infini, afin d'être constamment prêt à recevoir les signaux du clients. Il reçoit chaque bit du message envoyé par le client, confirme la réception, et imprime les chars reconstitués par **bit shifting**.
-- Les deux programmes doivent donc tourner en même temps: on appelle ça du **multi-process**. 
-- Le Makefile doit créer deux exécutables, un par process/programme/fichier.c avec main.
-- Lancer d'abord le serveur puis le client.
-
-Droit à une globale par process si elle a du sens, et à autant de variables statiques que souhaité.
-
-## server.c (pseudo-code)
-
-### main()
-```
-int  main(void)
-{
-  getpid()
-  printf("%s", pid)
-  signal(SIGUSR1, handle_signal)
-  signal(SIGUSR2, handle_signal)
-  while (1)
-    usleep(100)
-}
-```
-### handle_signal()
-```
-handle_signal()
-{
-  static unsigned char	current_char;  	//à chaque appel de handle signal, donc à chaque signal reçu, donc à chaque bit reçu, on reprend la dernière valeur de current_char
-  static int 		i; 		//idem pour int
-
-  current_char |= (signal == SIGUSR2) 	// |= veut dire assigne le résultat de la comparaison (signal == SIGUSR2) à current_char.
-  i ++;
-  if i == 8				// un byte est composé de 8 bits
-    if current_char == END_OF_MESSAGE 	// '\0'
-      write(1, "\n", 1);			
-    else
-      write(1, &current_char, 1);	// on imprime directement car stocker reviendrait à surcharger la mémoire d'allocations réallocations libérations (notamment si message trop long) + l'utilisateur attendrait trop longtemps avant de voir le message apparaître
-    i = 0;				// vu qu'on passe au byte suivant, on réinitialise l'index
-    current_char = 0; 			// idem
-  else
-	current_char <<= 1; 		// current_char = current_char << 1 : on décale les bit de 1
-}
-```
-
-
-## client.c (pseudo-code)
-### main()
-```
-int  main(int argc, char **argv)
-{
-  struct sigaction	sig_hook;
-
-  gestion erreurs: pas de PID ou pas de message, PID ou message invalide,...; Si erreur, exit(0) 	//pid = argv[1], message = argv[2]
-  while (ft_strlen(message)) 										//on utilise ft_strlen pour éviter de devoir incrémenter un index ici
-    encrypt_and_send_bit_by_bit(message)
-}
-```
-
-### encrypt_and_send_bit_by_bit(char *message)
-```
-void encrypt_and_send_bit_by_bit(char *message)
-{
-  unsigned char temp;
-  int		i;
-
-  i = 0
-  while (message[i])
-    j = 8
-    temp = message[j]
-    while (j)
-        temp = message[i] >> j
-        if temp % 2 == 0    	// --> if (char[j] == 1 || 0), en fonction du bit 
-          kill(pid, SIGUSR1) 	// envoie 0
-        else
-          kill(pid, SIGUSR2) 	// envoie 1
-        usleep(42)
-      j --;
-    i ++;
-}
 ```
