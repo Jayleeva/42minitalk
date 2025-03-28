@@ -5,7 +5,7 @@ Projet du 3ème cercle du cursus 42
 - Le "client" et le "serveur" sont en réalité juste deux programmes (= deux fichiers .c avec chacun leur main).
 - Utilisation: lancer d'abord le serveur puis le client.
 - Le client est exécuté avec le PID du serveur et un message en arguments, il utilise le PID du serveur et SIGURS1 ou SIGURS2 pour envoyer "0" ou "1" au serveur, bit par bit, byte par byte, char par char, jusqu'à avoir envoyé tout le message par **bit shifting**.
-- Le serveur imprime son PID puis tourne à l'infini, afin d'être constamment prêt à recevoir les signaux du clients. Il reçoit chaque bit du message envoyé par le client, confirme la réception grâce à une variable globale, et imprime les chars reconstitués par **bit shifting**.
+- Le serveur imprime son PID puis tourne à l'infini, afin d'être constamment prêt à recevoir les signaux du clients. Il reçoit chaque bit du message envoyé par le client, confirme la réception grâce à une variable globale (une seule autorisée si justifiée), et imprime les chars reconstitués par **bit shifting**.
 - Les deux programmes doivent donc tourner en même temps: on appelle ça du **multi-process**. 
 - Le Makefile doit créer deux exécutables, un par process/programme/fichier.c avec main.
 
